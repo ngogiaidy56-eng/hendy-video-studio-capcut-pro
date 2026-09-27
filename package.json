@@ -4,7 +4,7 @@
   "description": "Hendy Video Studio CapCut Pro - Server & Webhook",
   "main": "src/server.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "deploy": "wrangler deploy",
     "test:dry-run": "node -e \"console.log('Dry run passed')\""
   },
@@ -15,16 +15,16 @@
     "cheerio": "^1.2.0",
     "express": "^4.22.3",
     "fs-extra": "^11.4.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "ws": "^8.22.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.25",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.19.43",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
     "@types/ws": "^8.18.1",
     "typescript": "^5.9.3",
     "wrangler": "^3.114.17"
