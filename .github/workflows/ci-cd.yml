@@ -1,0 +1,48 @@
+name: GitHub Repository Cloud CI/CD Agent
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Lint & Dry-Run Test
+        run: |
+          npm run lint
+          npm run test:dry-run
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        if: success()
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: 'capcut-subtitle-editor'
+          directory: 'dist'
+
+      - name: Trigger Crash Alert on Failure
+        if: failure()
+        run: |
+          curl -X POST "https://your-bot-domain.vercel.app/github-crash-alert" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "commitSha": "${{ github.sha }}",
+              "errorMessage": "Biên dịch CI/CD bị lỗi! Đã chặn tiến trình deploy."
+            }'
