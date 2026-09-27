@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 export const App: React.FC = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [otpToken, setOtpToken] = useState('');
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [otpToken, setOtpToken] = useState<string>('');
   const [statusColor, setStatusColor] = useState<'GRAY' | 'GREEN' | 'RED'>('GRAY');
   const [ws, setWs] = useState<WebSocket | null>(null);
 
@@ -41,11 +41,11 @@ export const App: React.FC = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token: otpToken, clientHash: hash }),
     });
-    const data: any = await res.json();
+    const data = (await res.json()) as { success: boolean; message?: string };
     if (data.success) {
       alert('Đã xác thực thành công quyền quản trị hệ thống!');
     } else {
-      alert(data.message);
+      alert(data.message || 'Xác thực thất bại');
     }
   };
 
