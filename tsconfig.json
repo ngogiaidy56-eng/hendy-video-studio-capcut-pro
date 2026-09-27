@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "module": "commonjs",
-    "lib": ["es2022", "dom", "dom.iterable"],
-    "jsx": "react-jsx",
+    "target": "ES2022",
+    "module": "CommonJS",
+    "lib": ["es2022", "dom"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "include": ["src/**/*"]
 }
