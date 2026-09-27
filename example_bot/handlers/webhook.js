@@ -38,7 +38,6 @@ module.exports = async function telegramHandler(req, res) {
     // 2. Xử lý khi người dùng BẤM VÀO CÁC NÚT BẤM (Callback Query)
     if (update && update.callback_query) {
       const callbackQuery = update.callback_query;
-      const chatId = callbackQuery.message.chat.id;
       const data = callbackQuery.data;
 
       let responseText = "Đang xử lý yêu cầu...";
@@ -51,8 +50,8 @@ module.exports = async function telegramHandler(req, res) {
       }
 
       if (token) {
-        // Gửi thông báo popup hoặc tin nhắn phản hồi khi bấm nút
-        await axios.post(`https://api.telegram.org/bot8971349527:AAGG8lNFWdBj742RADHCG51TAFYUnuDJYYE/setWebhook?url=https://<TEN-DU-AN-CUA-BAN>.pages.dev/api/telegram-webhook`, {
+        // Đã sửa lại đúng API answerCallbackQuery để hiển thị thông báo popup khi bấm nút
+        await axios.post(`https://api.telegram.org/bot${token}/answerCallbackQuery`, {
           callback_query_id: callbackQuery.id,
           text: responseText,
           show_alert: true
