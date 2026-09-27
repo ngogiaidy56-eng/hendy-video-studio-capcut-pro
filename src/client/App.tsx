@@ -64,7 +64,7 @@ export const App: React.FC = () => {
               type="text"
               maxLength={6}
               value={otpToken}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOtpToken(e.target.value.toUpperCase())}
+              onChange={(e) => setOtpToken((e.target as HTMLInputElement).value.toUpperCase())}
               placeholder="Nhập mã OTP"
             />
             <button onClick={handleVerifyOTP}>XÁC THỰC TOKEN</button>
