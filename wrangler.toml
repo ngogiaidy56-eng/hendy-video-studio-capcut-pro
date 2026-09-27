@@ -1,9 +1,8 @@
-name = "hendy-video-studio-capcut-pro"
-main = "src/server.ts"
-compatibility_date = "2026-09-27"
-
-[build]
-command = "npm run build"
-
-[vars]
-APP_PORT = "8799"
+{
+  "name": "hendy-video-studio-capcut-pro",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-27",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
