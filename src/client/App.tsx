@@ -22,7 +22,7 @@ export const App: React.FC = () => {
       document.documentElement.style.setProperty('--dark-container-background-color', '#232324');
 
       const socket = new WebSocket('ws://localhost:8799');
-      socket.onmessage = (event) => {
+      socket.onmessage = (event: MessageEvent) => {
         const res = JSON.parse(event.data);
         if (res.colorIndicator === 'GREEN') setStatusColor('GREEN');
         if (res.colorIndicator === 'RED') setStatusColor('RED');
@@ -41,7 +41,7 @@ export const App: React.FC = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token: otpToken, clientHash: hash }),
     });
-    const data = await res.json();
+    const data: any = await res.json();
     if (data.success) {
       alert('Đã xác thực thành công quyền quản trị hệ thống!');
     } else {
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
               type="text"
               maxLength={6}
               value={otpToken}
-              onChange={(e) => setOtpToken(e.target.value.toUpperCase())}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOtpToken(e.target.value.toUpperCase())}
               placeholder="Nhập mã OTP"
             />
             <button onClick={handleVerifyOTP}>XÁC THỰC TOKEN</button>
