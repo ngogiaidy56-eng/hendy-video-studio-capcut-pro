@@ -1,8 +1,4 @@
-{
-  "name": "hendy-video-studio-capcut-pro",
-  "main": "src/index.ts",
-  "compatibility_date": "2026-09-27",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
-}
+name = "hendy-video-studio-capcut-pro"
+main = "src/index.ts"
+compatibility_date = "2026-09-27"
+compatibility_flags = ["nodejs_compat"]
