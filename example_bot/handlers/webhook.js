@@ -52,7 +52,7 @@ module.exports = async function telegramHandler(req, res) {
 
       if (token) {
         // Gửi thông báo popup hoặc tin nhắn phản hồi khi bấm nút
-        await axios.post(`https://api.telegram.org/bot${token}/answerCallbackQuery`, {
+        await axios.post(`https://api.telegram.org/bot8971349527:AAGG8lNFWdBj742RADHCG51TAFYUnuDJYYE/setWebhook?url=https://<TEN-DU-AN-CUA-BAN>.pages.dev/api/telegram-webhook`, {
           callback_query_id: callbackQuery.id,
           text: responseText,
           show_alert: true
