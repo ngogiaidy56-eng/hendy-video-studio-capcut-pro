@@ -1,0 +1,28 @@
+{
+  "name": "hendy-video-studio-capcut-pro",
+  "version": "2.4.0",
+  "description": "Hendy Video Studio CapCut Pro - Server & Webhook",
+  "main": "src/server.ts",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "wrangler deploy",
+    "test:dry-run": "node -e \"console.log('Dry run passed')\""
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@google/genai": "^0.1.1",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.19.2",
+    "fs-extra": "^11.2.0",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.0",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.3.3",
+    "wrangler": "^3.0.0"
+  }
+}
