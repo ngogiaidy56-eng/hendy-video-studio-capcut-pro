@@ -1,9 +1,10 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import http from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
 import crypto from 'crypto';
 import path from 'path';
 import fs from 'fs-extra';
+import axios from 'axios';
 
 import { AutoPatchEngine } from './engine/autoPatchEngine';
 import { MaintenanceEngine } from './engine/maintenanceEngine';
@@ -44,6 +45,74 @@ app.get('/tai-app', (_req, res) => {
     res.download(filePath);
   } else {
     res.status(404).send('Bản cài đặt ứng dụng hiện chưa sẵn sàng.');
+  }
+});
+
+// Endpoint kiểm tra trang chủ
+app.get('/', (_req: Request, res: Response) => {
+  res.send('Hello world - Hendy Video Studio API Server is running!');
+});
+
+// ==========================================
+// TÍCH HỢP WEBHOOK TELEGRAM TRỰC TIẾP TẠI ĐÂY
+// ==========================================
+app.post('/api/telegram-webhook', async (req: Request, res: Response) => {
+  try {
+    const update = req.body;
+
+    // 1. Xử lý khi người dùng gửi tin nhắn hoặc lệnh /start
+    if (update && update.message) {
+      const chatId = update.message.chat.id;
+      const text = update.message.text;
+
+      if (text === '/start') {
+        const keyboardPayload = {
+          chat_id: chatId,
+          text: "🚀 **Hendy Video Studio & Admin Control**\nChào mừng quản trị viên! Vui lòng chọn chức năng bên dưới:",
+          parse_mode: "Markdown",
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: "🖥️ Mở Bảng Điều Khiển", callback_data: "open_dashboard" },
+                { text: "📊 Kiểm Tra SOT", callback_data: "check_sot" }
+              ],
+              [
+                { text: "⚙️ Cài Đặt Hệ Thống", callback_data: "system_settings" },
+                { text: "📖 Tài Liệu Hướng Dẫn", url: "https://github.com" }
+              ]
+            ]
+          }
+        };
+
+        await axios.post(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, keyboardPayload);
+      }
+    }
+
+    // 2. Xử lý khi người dùng BẤM VÀO CÁC NÚT TƯƠNG TÁC (Callback Query)
+    if (update && update.callback_query) {
+      const callbackQuery = update.callback_query;
+      const data = callbackQuery.data;
+
+      let responseText = "Đang xử lý yêu cầu...";
+      if (data === "open_dashboard") {
+        responseText = "🖥️ Đã kích hoạt liên kết bảng điều khiển quản trị!";
+      } else if (data === "check_sot") {
+        responseText = "📊 Trạng thái nguồn chân lý (SOT): Hoạt động bình thường.";
+      } else if (data === "system_settings") {
+        responseText = "⚙️ Mở phân vùng cấu hình hệ thống.";
+      }
+
+      await axios.post(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
+        callback_query_id: callbackQuery.id,
+        text: responseText,
+        show_alert: true
+      });
+    }
+
+    return res.status(200).send('OK');
+  } catch (error: any) {
+    console.error("Lỗi xử lý webhook Telegram:", error.message);
+    return res.status(500).send('Internal Server Error');
   }
 });
 
