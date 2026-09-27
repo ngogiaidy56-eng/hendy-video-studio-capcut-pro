@@ -1,0 +1,14 @@
+{
+  "endpoint": "https://api.system.local/",
+  "theme": {
+    "fontFamily": "CapCut Sans Text",
+    "darkBackgroundColor": "#17171a",
+    "darkContainerBackgroundColor": "#232324"
+  },
+  "features": {
+    "enableAIOCR": true,
+    "dryRunStrict": true,
+    "maintenanceMode": false
+  },
+  "version": "2.4.0"
+}
